@@ -4437,9 +4437,6 @@ __metadata:
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5"
     zod: "npm:^3.23.8"
-  dependenciesMeta:
-    "@prisma/client@5.16.2":
-      unplugged: true
   languageName: unknown
   linkType: soft
 
