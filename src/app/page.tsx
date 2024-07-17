@@ -1,4 +1,6 @@
 import { buttonVariants } from "@/components/ui/button"
+import { Features } from "@/components/features"
+import { Footer } from "@/components/footer"
 import Link from "next/link"
 
 const page = () => {
@@ -11,6 +13,7 @@ const page = () => {
       "radial-gradient(at 0px 97%, rgb(227, 235, 255), white) 0% 0% repeat scroll rgba(0, 0, 0, 0)",
     zIndex: 30,
   }
+
   return (
     <div style={divStyle}>
       <div className="dark:text-zinc-100 mx-auto w-7/8 ">
@@ -38,12 +41,9 @@ const page = () => {
             </div>
           </div>
         </div>
-        <div className="rounded-2xl md:h-[600px] relative mt-8 pt-4">
-          <img
-            className="rounded-2xl w-4/5 mx-auto z-20 pb-12"
-            src="https://res.cloudinary.com/dnzjbmzag/image/upload/v1694679379/CalendarPlanDashboard.png"
-          />
-        </div>
+
+        <Features />
+        <Footer />
       </div>
     </div>
   )
