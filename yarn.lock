@@ -2129,6 +2129,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"arctic@npm:^1.9.2":
+  version: 1.9.2
+  resolution: "arctic@npm:1.9.2"
+  dependencies:
+    oslo: "npm:1.2.0"
+  checksum: 10c0/af104b2c5955ed9b6e76e185bcb0f5fbc7e62b59cc41bd649aeeb15555746a75dbb14adf448708838bbe4ff6f12274faa3a4661c4a958aaa4d497fa4fa97a4ed
+  languageName: node
+  linkType: hard
+
 "arg@npm:^5.0.2":
   version: 5.0.2
   resolution: "arg@npm:5.0.2"
@@ -4417,6 +4426,7 @@ __metadata:
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     "@yarnpkg/pnpify": "npm:^4.1.0"
+    arctic: "npm:^1.9.2"
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.1"
     eslint: "npm:^8"

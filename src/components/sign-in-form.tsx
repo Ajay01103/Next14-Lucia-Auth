@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 
 import { z } from "zod"
 import { useForm } from "react-hook-form"
@@ -13,6 +13,7 @@ import { signInSchema } from "@/lib/schema"
 import { SignIn } from "@/actions/auth-actions"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { GithubOAuthButton } from "./github-oauth-button"
 
 const SignInForm = () => {
   const router = useRouter()
@@ -95,6 +96,8 @@ const SignInForm = () => {
             </Button>
           </form>
         </Form>
+
+        <GithubOAuthButton />
       </CardContent>
     </Card>
   )
