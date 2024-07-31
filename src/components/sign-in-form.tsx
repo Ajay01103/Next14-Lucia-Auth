@@ -13,7 +13,7 @@ import { signInSchema } from "@/lib/schema"
 import { SignIn } from "@/actions/auth-actions"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { GithubOAuthButton } from "./google-oauth-button"
+import { GoogleOAuthButton } from "./google-oauth-button"
 
 const SignInForm = () => {
   const router = useRouter()
@@ -97,7 +97,7 @@ const SignInForm = () => {
           </form>
         </Form>
 
-        <GithubOAuthButton />
+        <GoogleOAuthButton />
       </CardContent>
     </Card>
   )

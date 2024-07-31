@@ -1,8 +1,10 @@
+"use client"
+
 import { getGoogleOAuthConsentUrl } from "@/actions/auth-actions"
 import { Button } from "./ui/button"
 import { toast } from "sonner"
 
-export const GithubOAuthButton = () => {
+export const GoogleOAuthButton = () => {
   return (
     <Button
       onClick={async () => {
@@ -24,7 +26,7 @@ export const GithubOAuthButton = () => {
         height={25}
         alt=""
       />
-      Continue with Github
+      Continue with Google
     </Button>
   )
 }
