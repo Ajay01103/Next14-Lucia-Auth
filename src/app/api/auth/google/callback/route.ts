@@ -1,24 +1,25 @@
-import { db } from "@/lib/db"
-import { githubOAuthClient } from "@/lib/github-oauth"
+import { googleOAuthClient } from "@/lib/google-oauth"
 import { lucia } from "@/lib/lucia"
+import { db } from "@/lib/db"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import { NextRequest } from "next/server"
 
-export async function GET(req: NextRequest) {
+// http://localhost:3000/api/auth/google/callback
+export async function GET(req: NextRequest, res: Response) {
   const url = req.nextUrl
   const code = url.searchParams.get("code")
   const state = url.searchParams.get("state")
 
-  if (!state) {
+  if (!code || !state) {
     console.error("no code or state")
     return new Response("Invalid Request", { status: 400 })
   }
 
-  //   const codeVerifier = cookies().get("codeVerifier")?.value
+  const codeVerifier = cookies().get("codeVerifier")?.value
   const savedState = cookies().get("state")?.value
 
-  if (!savedState) {
+  if (!codeVerifier || !savedState) {
     console.error("no code verifier or state")
     return new Response("Invalid Request", { status: 400 })
   }
@@ -28,36 +29,37 @@ export async function GET(req: NextRequest) {
     return new Response("Invalid Request", { status: 400 })
   }
 
-  const { accessToken } = await githubOAuthClient.validateAuthorizationCode(state)
-  const githubResponse = await fetch("https://api.github.com/user", {
+  const { accessToken } = await googleOAuthClient.validateAuthorizationCode(code, codeVerifier)
+  const googleResponse = await fetch("https://www.googleapis.com/oauth2/v1/userinfo", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   })
 
-  const githubData = (await githubResponse.json()) as {
-    id: number
+  const googleData = (await googleResponse.json()) as {
+    id: string
     email: string
     name: string
-    avatar_url: string
+    picture: string
   }
 
   let userId: string = ""
+  // if the email exists in our record, we can create a cookie for them and sign them in
+  // if the email doesn't exist, we create a new user, then craete cookie to sign them in
 
   const existingUser = await db.user.findUnique({
     where: {
-      email: githubData.email,
+      email: googleData.email,
     },
   })
-
   if (existingUser) {
     userId = existingUser.id
   } else {
     const user = await db.user.create({
       data: {
-        name: githubData.name,
-        email: githubData.email,
-        picture: githubData.avatar_url,
+        name: googleData.name,
+        email: googleData.email,
+        picture: googleData.picture,
       },
     })
     userId = user.id

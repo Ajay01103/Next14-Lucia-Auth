@@ -7,7 +7,7 @@ import { Argon2id } from "oslo/password"
 import { lucia } from "@/lib/lucia"
 import { cookies } from "next/headers"
 import { generateCodeVerifier, generateState } from "arctic"
-import { githubOAuthClient } from "@/lib/github-oauth"
+import { googleOAuthClient } from "@/lib/google-oauth"
 
 export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
   try {
@@ -71,7 +71,7 @@ export const Logout = async () => {
   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
 }
 
-export const getGithubOAuthConsentUrl = async () => {
+export const getGoogleOAuthConsentUrl = async () => {
   try {
     const state = generateState()
     const codeVerifier = generateCodeVerifier()
@@ -85,13 +85,11 @@ export const getGithubOAuthConsentUrl = async () => {
       secure: process.env.NODE_ENV === "production",
     })
 
-    const authUrl = await githubOAuthClient.createAuthorizationURL(state, {
-      scopes: ["user"],
+    const authUrl = await googleOAuthClient.createAuthorizationURL(state, codeVerifier, {
+      scopes: ["email", "profile"],
     })
     return { success: true, url: authUrl.toString() }
-
-    return
-  } catch (error: any) {
+  } catch (error) {
     return { success: false, error: "Something went wrong" }
   }
 }
